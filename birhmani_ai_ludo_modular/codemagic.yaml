@@ -1,0 +1,24 @@
+workflows:
+android-workflow:
+name: Build Android APK with Gemini
+max_build_duration: 60
+environment:
+flutter: stable
+vars:
+GEMINI_API_KEY: Encrypted(...) # Apna key Codemagic UI me "Environment variables" me daalna hai
+scripts:
+- name: Pre-build (create .env)
+script: |
+echo "Creating .env file with Gemini API Key"
+echo "GEMINI_API_KEY=$GEMINI_API_KEY" > .env
+- name: Build APK
+script: |
+flutter pub get
+flutter build apk --release
+- name: Post-build (rename APK)
+script: |
+echo "Renaming APK..."
+cp build/app/outputs/flutter-apk/app-release.apk $CM_BUILD_DIR/app-release.apk
+artifacts:
+- build/app/outputs/flutter-apk/app-release.apk
+- $CM_BUILD_DIR/app-release.apk
