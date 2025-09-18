@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.birhmani_ai_ludo">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:label="Birhmani AI Ludo"
+        android:icon="@mipmap/ic_launcher">
+    </application>
+</manifest>

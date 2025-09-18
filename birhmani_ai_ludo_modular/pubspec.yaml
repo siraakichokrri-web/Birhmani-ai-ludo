@@ -1,0 +1,41 @@
+name: birhmani_ai_ludo
+description: Birhmani AI Ludo - Neon black themed Ludo with AI chat (Gemini integration optional).
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+
+dependencies:
+  rive: ^0.12.0
+  speech_to_text: ^5.9.0
+  flutter_tts: ^3.8.0
+  lottie: ^2.4.0
+
+  flutter:
+    sdk: flutter
+  provider: ^6.0.5
+  flutter_dotenv: ^5.0.2
+  http: ^0.13.6
+  audioplayers: ^2.1.1
+  confetti: ^0.6.0
+  shared_preferences: ^2.1.1
+  flutter_svg: ^1.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/sounds/
+    - assets/skins/
+    - assets/boards/
