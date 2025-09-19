@@ -1,47 +1,31 @@
 name: birhmani_ai_ludo
+description: Utraadi Ludo with AI - Realistic 4-player game + Gemini Chat.
 
-description: A new Flutter project.
-
-publish_to: 'none' # Remove this line if publishing to pub.dev
-
-
-
+publish_to: 'none'
 version: 1.0.0+1
 
-
-
 environment:
-
-sdk: ">=2.17.0 <3.0.0"
-
-
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: ">=3.24.0"
 
 dependencies:
-
-flutter:
-
-sdk: flutter
-
-
-
-# Your other dependencies here...
-
-audioplayers: ^2.0.4
-
-
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flame: ^1.18.0  # For Ludo board/physics
+  audioplayers: ^6.1.0  # Dice sounds
+  google_generative_ai: ^0.4.0  # Gemini AI
+  shared_preferences: ^2.3.2  # Settings (sound)
+  lottie: ^3.1.2  # Animations (welcome)
 
 dev_dependencies:
-
-flutter_test:
-
-sdk: flutter
-
-
-
-flutter_lints: ^2.0.0
-
-
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
 
 flutter:
-
-uses-material-design: true
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/sounds/
+    - assets/animations/  # For Lottie JSON if added
