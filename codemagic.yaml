@@ -1,0 +1,71 @@
+# This is a configuration file for Codemagic CI/CD
+# For more information, see: https://docs.codemagic.io/getting-started/yaml/
+
+workflows:
+ios-app-build:
+name: iOS App Build
+environment:
+# Specify the Xcode version to use.
+# Make sure this matches the version you use for local development.
+xcode: 15.3
+# Specify the CocoaPods version.
+cocoapods: 1.15.2
+# Add your iOS developer portal team ID and the app's bundle identifier
+vars:
+APP_STORE_CONNECT_TEAM_ID: "YOUR_TEAM_ID" # <-- Add your Team ID here
+BUNDLE_ID: "com.yourcompany.birhmaniailudo" # <-- Add your Bundle ID here
+
+# Trigger builds on pushes to the main branch
+triggering:
+events:
+- push
+branch_patterns:
+- pattern: 'main'
+include: true
+source: true
+
+scripts:
+- name: Install CocoaPods dependencies
+script: |
+set -e # Exit immediately if a command exits with a non-zero status.
+echo "Installing CocoaPods dependencies..."
+pod install
+
+- name: Set up code signing
+script: |
+echo "Setting up keychain and code signing..."
+# This section assumes you have your certificates and profiles uploaded to Codemagic
+# and have configured environment variables for them.
+keychain initialize
+keychain add-certificates --certificate "$APP_STORE_CONNECT_API_KEY" --certificate-password "$APP_STORE_CONNECT_API_KEY_PASSWORD"
+app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE --create
+keychain use-login
+
+- name: Build and archive the iOS application
+script: |
+set -e
+echo "Building the Xcode project..."
+# Use the .xcworkspace file because you are using CocoaPods
+# Replace 'Birhmani-ai-ludo' with the actual name of your scheme if it's different.
+xcode-project build-ipa \
+--workspace "Birhmani-ai-ludo.xcworkspace" \
+--scheme "Birhmani-ai-ludo"
+
+artifacts:
+- build/ios/ipa/*.ipa
+- $HOME/Library/Developer/Xcode/DerivedData/**/Logs/Build/*.xcactivitylog
+
+publishing:
+# This is an optional step to publish to App Store Connect.
+# You will need to set up App Store Connect integration in Codemagic.
+app_store_connect:
+auth:
+api_key: $APP_STORE_CONNECT_API_KEY
+key_id: $APP_STORE_CONNECT_API_KEY_ID
+issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+
+# To submit for TestFlight Beta review
+submit_to_testflight: true
+# To submit for App Store review
+# submit_to_app_store: true
+
